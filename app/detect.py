@@ -40,6 +40,7 @@ def get_coordinates(video):
     cap.set(10, 150)
     fn = int(cap.get(cv2.CAP_PROP_POS_FRAMES))
     ln = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
+    res = []
     while fn < ln:
         success, img = cap.read()
         imgResult = img.copy()
@@ -47,6 +48,5 @@ def get_coordinates(video):
         t = (fn/30)
         print(t)
         print(x)
-        cv2.imshow("Result", imgResult)
-        if cv2.waitKey(1) & 0xFF == ord('q'):
-            break
+        res.append([x, t])
+    return res
