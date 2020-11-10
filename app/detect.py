@@ -41,12 +41,15 @@ def get_coordinates(video):
     fn = int(cap.get(cv2.CAP_PROP_POS_FRAMES))
     ln = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
     res = []
-    while fn < ln:
+    while fn <= ln:
         success, img = cap.read()
-        imgResult = img.copy()
-        x = findColor(img, myColors, imgResult)
-        t = (fn/30)
-        print(t)
-        print(x)
-        res.append([x, t])
+        try:
+            imgResult = img.copy()
+            x = findColor(img, myColors, imgResult)
+            t = (fn/30)
+            res.append([x, t])
+        except:
+            print('Video Ended'
+                  )
+            break
     return res

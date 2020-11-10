@@ -1,6 +1,6 @@
 import os
-from flask import Flask, render_template, request
-from flask_restx import Api, Resource, reqparse
+from flask import Flask, render_template, request, jsonify
+from flask_restx import Api, Resource
 from .detect import get_coordinates
 
 
@@ -23,8 +23,9 @@ def create_app(env=None):
         def post(self):
             uploaded_file = request.files['file']
             print(uploaded_file)
-            cords = get_coordinates(uploaded_file)
+            uploaded_file.save(uploaded_file.name)
+            cords = get_coordinates(uploaded_file.name)
             print(cords)
-            return 'nice', 200
+            return cords, 200
 
     return app
