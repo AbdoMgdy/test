@@ -21,12 +21,12 @@ def findColor(img, myColors, imgResult):
 
 
 def getContours(img):
-    contours, hierachy = cv2.findContours(img, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
+    contours, hierachy = cv2.findContours(
+        img, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
     x, y, w, h = 0, 0, 0, 0
     for cnt in contours:
         area = cv2.contourArea(cnt)
         if area > 500:
-            #cv2.drawContours(imgResult, cnt, -1, (255,0,0), 3)
             peri = cv2.arcLength(cnt, True)
             approx = cv2.approxPolyDP(cnt, 0.02*peri, True)
             x, y, w, h = cv2.boundingRect(approx)
@@ -38,18 +38,17 @@ def get_coordinates(video):
     cap.set(3, frameWidth)
     cap.set(4, frameHeight)
     cap.set(10, 150)
-    fn = int(cap.get(cv2.CAP_PROP_POS_FRAMES))
-    ln = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
     res = []
-    while fn <= ln:
+    while True:
+        fn = int(cap.get(cv2.CAP_PROP_POS_FRAMES))
+        ln = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
         success, img = cap.read()
         try:
             imgResult = img.copy()
             x = findColor(img, myColors, imgResult)
-            t = (fn/30)
+            t = round(fn/30, 1)
             res.append([x, t])
         except:
-            print('Video Ended'
-                  )
+            print('Video Ended')
             break
     return res
