@@ -23,11 +23,12 @@ def create_app(env=None):
             return {'hello': 'world'}
 
         def post(self):
-            uploaded_file = request.form.get('file')
+            print(request.files.get('file'))
+            uploaded_file = request.files.get('file')
             print(uploaded_file)
-            # uploaded_file.save(uploaded_file.name)
-            # cords = get_coordinates(uploaded_file.name)
-            # print(cords)
-            return 200
+            uploaded_file.save(uploaded_file.name)
+            cords = get_coordinates(uploaded_file.name)
+            print(cords)
+            return cords, 200
 
     return app
