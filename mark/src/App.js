@@ -62,7 +62,6 @@ function App() {
         <Typography align="center" variant="h2" gutterBottom>
           Motion Tracking GP 2021
         </Typography>
-        <Form />
         <AppBar position="static">
           <Tabs value={value} onChange={changeTab}>
             <Tab label="Upload Video" />
