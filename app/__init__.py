@@ -25,9 +25,9 @@ def create_app(env=None):
         def post(self):
             uploaded_file = request.form.get('file')
             print(uploaded_file)
-            uploaded_file.save(uploaded_file.name)
-            cords = get_coordinates(uploaded_file.name)
-            print(cords)
+            # uploaded_file.save(uploaded_file.name)
+            # cords = get_coordinates(uploaded_file.name)
+            # print(cords)
             return 200
 
     return app
