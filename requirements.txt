@@ -3,3 +3,4 @@ flask-restx
 opencv-python
 numpy
 apriltag
+flask-cors
