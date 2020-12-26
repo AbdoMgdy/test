@@ -3,6 +3,7 @@ from flask import Flask, render_template, request, jsonify
 from flask_restx import Api, Resource
 from flask_cors import CORS
 from .detect import get_coordinates
+from .aruco_tracker import getRes
 
 
 def create_app(env=None):
@@ -27,7 +28,7 @@ def create_app(env=None):
             uploaded_file = request.files.get('file')
             print(uploaded_file)
             uploaded_file.save(uploaded_file.name)
-            cords = get_coordinates(uploaded_file.name)
+            cords = getRes(uploaded_file.name)
             print(cords)
             return cords, 200
 

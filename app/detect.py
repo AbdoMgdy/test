@@ -41,7 +41,6 @@ def get_coordinates(video):
     res = []
     while True:
         fn = int(cap.get(cv2.CAP_PROP_POS_FRAMES))
-        ln = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
         success, img = cap.read()
         try:
             imgResult = img.copy()
