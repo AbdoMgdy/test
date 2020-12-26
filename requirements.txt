@@ -5,3 +5,4 @@ numpy
 apriltag
 flask-cors
 gunicorn
+eventlet
