@@ -143,6 +143,7 @@ def get_all(d):
             dt = second[1] - first[1]
             v = dx/dt
             a = v/dt
+            print(type(second[0]))
             # print(f'dx:{dx} dt:{dt} v:{v} a:{a}')
             varr.append([second[0], v, a, t])
         except:
