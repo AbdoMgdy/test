@@ -2,7 +2,6 @@ import os
 from flask import Flask, render_template, request, jsonify
 from flask_restx import Api, Resource
 from flask_cors import CORS
-from .detect import get_coordinates
 from .aruco_tracker import getRes
 
 
