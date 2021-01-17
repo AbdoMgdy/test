@@ -29,6 +29,6 @@ def create_app(env=None):
             uploaded_file.save(uploaded_file.name)
             cords = getRes(uploaded_file.name)
             print(cords)
-            return cords, 200
+            return jsonify(cords), 200
 
     return app
