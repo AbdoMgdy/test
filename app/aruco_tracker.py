@@ -1,5 +1,3 @@
-
-
 import numpy as np
 import cv2
 import cv2.aruco as aruco
@@ -22,7 +20,7 @@ def calibrate():
 
     # iterating through all calibration images
     # in the folder
-    images = glob.glob('calib_images/checkerboard/*.jpg')
+    images = glob.glob('app/images/*.jpg')
     print(images)
     first_img = cv2.imread(images[0])
     gray = cv2.cvtColor(first_img, cv2.COLOR_BGR2GRAY)
