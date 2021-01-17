@@ -50,7 +50,7 @@ def calibrate():
 c = calibrate()
 
 
-def getCords(video):
+def get_cords(video):
 
     frameWidth = 640
     frameHeight = 480
@@ -132,7 +132,7 @@ def getCords(video):
     return res
 
 
-def getAcc(d):
+def get_all(d):
     varr = []
     for i in range(len(d)):
         try:
@@ -151,10 +151,10 @@ def getAcc(d):
 
 
 def getRes(v):
-    d_list = getCords(v)
-    acc_list = getAcc(d_list)
+    d_list = get_cords(v)
+    all_list = get_all(d_list)
 
-    return acc_list
+    return all_list
 
 
 print(getRes("30.mp4"))
