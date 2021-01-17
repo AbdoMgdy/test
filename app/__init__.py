@@ -29,7 +29,7 @@ def create_app(env=None):
             print(uploaded_file)
             uploaded_file.save(uploaded_file.name)
             cords = getRes(uploaded_file.name)
-            j_cords = json.dumps(cords)
+            j_cords = json.dumps(list(cords.astype(float)))
             print(j_cords)
             return j_cords, 200
 
