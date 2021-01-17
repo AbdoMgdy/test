@@ -144,7 +144,7 @@ def getAcc(d):
             v = dx/dt
             a = v/dt
             # print(f'dx:{dx} dt:{dt} v:{v} a:{a}')
-            varr.append([a, t])
+            varr.append([second[0], v, a, t])
         except:
             break
     return varr
