@@ -1,6 +1,6 @@
 flask
 flask-restx
-opencv-python-contrib
+opencv-contrib-python
 numpy
 apriltag
 flask-cors
