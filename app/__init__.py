@@ -24,11 +24,11 @@ def create_app(env=None):
             return {'hello': 'world'}
 
         def post(self):
-            print(request.files.get('file'))
             uploaded_file = request.files.get('file')
             print(uploaded_file)
             uploaded_file.save(uploaded_file.name)
             cords = getRes(uploaded_file.name)
+            print(type(cords))
             j_cords = json.dumps(list(cords.astype(float)))
             print(j_cords)
             return j_cords, 200

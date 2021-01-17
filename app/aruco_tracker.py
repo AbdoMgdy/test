@@ -155,6 +155,3 @@ def getRes(v):
     all_list = get_all(d_list)
 
     return all_list
-
-
-print(getRes("30.mp4"))
