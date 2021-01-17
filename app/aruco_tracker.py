@@ -98,11 +98,11 @@ def get_cords(video):
                     x = corners[0][0][0][0]
                     y = corners[0][0][0][1]
 
-                    print("x = ", x)
-                    print("y = ", y)
+                    # print("x = ", x)
+                    # print("y = ", y)
                     stop = time.time()
                     t = stop-start
-                    print("x = ", x)
+                    # print("x = ", x)
 
                     res.append([x, t])
                 # draw a square around the markers
