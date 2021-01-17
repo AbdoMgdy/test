@@ -157,4 +157,4 @@ def getRes(v):
     return acc_list
 
 
-# print(getRes(""))
+print(getRes("30.mp4"))
