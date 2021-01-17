@@ -144,9 +144,10 @@ def get_all(d):
             v = dx/dt
             a = v/dt
             print(v, a, t)
+            print(v.item(), a.item(), t.item())
             print(type(second[0]))
             # print(f'dx:{dx} dt:{dt} v:{v} a:{a}')
-            varr.append([second[0].item(), v.item(), a.item(), t.item()])
+            varr.append([second[0], v, a, t])
         except:
             break
     print(varr)
