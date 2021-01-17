@@ -134,6 +134,7 @@ def get_cords(video):
 
 def get_all(d):
     varr = []
+    print("npRaw", d)
     for i in range(len(d)):
         try:
             first = d[i]
@@ -143,14 +144,13 @@ def get_all(d):
             dt = second[1] - first[1]
             v = dx/dt
             a = v/dt
-            print(v, a, t)
-            print(v.item(), a.item(), t.item())
+            print("default", v, a, t)
+            print("item()", v.item(), a.item(), t.item())
             print(type(second[0]))
             # print(f'dx:{dx} dt:{dt} v:{v} a:{a}')
             varr.append([second[0], v, a, t])
         except:
             break
-    print(varr)
     return varr
 
 
