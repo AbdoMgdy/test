@@ -1,6 +1,7 @@
 import os
 from flask import Flask, render_template, request, jsonify
 from flask_restx import Api, Resource
+import json
 from flask_cors import CORS
 from .aruco_tracker import getRes
 
@@ -28,7 +29,8 @@ def create_app(env=None):
             print(uploaded_file)
             uploaded_file.save(uploaded_file.name)
             cords = getRes(uploaded_file.name)
-            print(cords)
-            return jsonify(cords), 200
+            j_cords = json.dumps(cords)
+            print(j_cords)
+            return j_cords, 200
 
     return app
