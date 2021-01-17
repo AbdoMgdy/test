@@ -22,8 +22,10 @@ def calibrate():
 
     # iterating through all calibration images
     # in the folder
-    images = glob.glob('calib_images/checkerboard/*.jpg')
+    images = glob.glob('calib_images/checkerboard/*.jpeg')
 
+    first_img = cv2.imread(images[0])
+    gray = cv2.cvtColor(first_img, cv2.COLOR_BGR2GRAY)
     for fname in images:
         img = cv2.imread(fname)
         gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
