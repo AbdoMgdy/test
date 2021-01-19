@@ -144,7 +144,7 @@ def getAcc(d):
             dx = second[0] - first[0]
             dt = second[1] - first[1]
             x = second[0]
-            v = abs(dx/dt)
+            v = dx/dt
             a = v/dt
             # print(f'dx:{dx} dt:{dt} v:{v} a:{a}')
             varr.append([x, v, a, t])
