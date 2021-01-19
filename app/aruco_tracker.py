@@ -6,6 +6,8 @@ import cv2.aruco as aruco
 import glob
 import time
 
+print(np)
+
 
 def calibrate():
     # ---------------------- CALIBRATION ---------------------------
@@ -99,16 +101,14 @@ def getCords(video, fps):
                     aruco.drawAxis(frame, c[0], c[1], rvec[i], tvec[i], 0.1)
                     x = corners[0][0][0][0]
                     x.item()
-                    float(x)
                     y = corners[0][0][0][1]
-                    print(type(x))
                     # print("x = ", x)
                     # print("y = ", y)
                     fn = int(cap.get(cv2.CAP_PROP_POS_FRAMES))
                     t = (fn/fps)
                     # print("t =", t)
 
-                    res.append([x, t])
+                    res.append([x.item(), t])
                 # draw a square around the markers
                 aruco.drawDetectedMarkers(frame, corners)
 
