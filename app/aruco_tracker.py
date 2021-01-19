@@ -106,7 +106,6 @@ def getCords(video, fps):
                     fn = int(cap.get(cv2.CAP_PROP_POS_FRAMES))
                     t = (fn/fps)
                     # print("t =", t)
-                    print(res)
                     res.append([x.item(), t])
                 # draw a square around the markers
                 aruco.drawDetectedMarkers(frame, corners)
