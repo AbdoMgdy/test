@@ -98,6 +98,8 @@ def getCords(video, fps):
 
                     aruco.drawAxis(frame, c[0], c[1], rvec[i], tvec[i], 0.1)
                     x = corners[0][0][0][0]
+                    print(type(x))
+                    x.tolist()
                     y = corners[0][0][0][1]
                     print(type(x))
                     # print("x = ", x)
