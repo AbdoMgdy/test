@@ -27,7 +27,7 @@ def create_app(env=None):
             uploaded_file = request.files.get('file')
             print(uploaded_file)
             uploaded_file.save(uploaded_file.name)
-            cords = getRes(uploaded_file.name)
+            cords = getRes(uploaded_file.name, 60)
             print(cords)
             j_cords = json.dumps(cords)
             print(j_cords)

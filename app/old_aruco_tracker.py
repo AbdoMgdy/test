@@ -50,7 +50,7 @@ def calibrate():
 c = calibrate()
 
 
-def getCords(video, fps):
+def getCords(video):
 
     frameWidth = 640
     frameHeight = 480
@@ -98,11 +98,11 @@ def getCords(video, fps):
                     x = corners[0][0][0][0]
                     y = corners[0][0][0][1]
 
-                    print("x = ", x)
-                    print("y = ", y)
+                    print("x = ",x)
+                    print("y = ",y)
                     fn = int(cap.get(cv2.CAP_PROP_POS_FRAMES))
-                    t = (fn/fps)
-                    print("t =", t)
+                    t= (fn/60)
+                    print("t =" ,t)
 
                     res.append([x, t])
                 # draw a square around the markers
@@ -141,18 +141,21 @@ def getAcc(d):
             t = second[1]
             dx = second[0] - first[0]
             dt = second[1] - first[1]
-            x = second[0]
-            v = abs(dx/dt)
+            x=second[0]
+            v =abs(dx/dt)
             a = v/dt
             # print(f'dx:{dx} dt:{dt} v:{v} a:{a}')
-            varr.append([x, v, a, t])
+            varr.append([x,v,a,t])
         except:
             break
     return varr
 
 
-def getRes(v, fps):
-    d_list = getCords(v, fps)
+def getRes(v):
+    d_list = getCords(v)
     acc_list = getAcc(d_list)
 
     return acc_list
+
+
+print(getRes("60frame.mp4"))
