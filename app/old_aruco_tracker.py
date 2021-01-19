@@ -22,7 +22,9 @@ def calibrate():
 
     # iterating through all calibration images
     # in the folder
-    images = glob.glob('calib_images/checkerboard/*.jpg')
+    images = glob.glob('app/images/*.jpg')
+    first_img = cv2.imread(images[0])
+    gray = cv2.cvtColor(first_img, cv2.COLOR_BGR2GRAY)
 
     for fname in images:
         img = cv2.imread(fname)
@@ -98,11 +100,11 @@ def getCords(video):
                     x = corners[0][0][0][0]
                     y = corners[0][0][0][1]
 
-                    print("x = ",x)
-                    print("y = ",y)
+                    print("x = ", x)
+                    print("y = ", y)
                     fn = int(cap.get(cv2.CAP_PROP_POS_FRAMES))
-                    t= (fn/60)
-                    print("t =" ,t)
+                    t = (fn/60)
+                    print("t =", t)
 
                     res.append([x, t])
                 # draw a square around the markers
@@ -141,11 +143,11 @@ def getAcc(d):
             t = second[1]
             dx = second[0] - first[0]
             dt = second[1] - first[1]
-            x=second[0]
-            v =abs(dx/dt)
+            x = second[0]
+            v = abs(dx/dt)
             a = v/dt
             # print(f'dx:{dx} dt:{dt} v:{v} a:{a}')
-            varr.append([x,v,a,t])
+            varr.append([x, v, a, t])
         except:
             break
     return varr
