@@ -50,7 +50,7 @@ c = calibrate()
 
 
 def get_coordinates(video, fps):
-
+    # Returns the video coordinates displacement with time array 
     frameWidth = 640
     frameHeight = 480
     cap = cv2.VideoCapture(video)
@@ -122,10 +122,11 @@ def get_coordinates(video, fps):
     # When everything done, release the capture
     cap.release()
     cv2.destroyAllWindows()
-    return res
+    return response
 
 
 def get_displacement_velocity_acceleration(displacement_time_list):
+    # Takes the displacement with time array and returns array of [x,v,a,t]
     response = []
     for i in range(len(displacement_time_list)):
         try:
@@ -144,6 +145,7 @@ def get_displacement_velocity_acceleration(displacement_time_list):
 
 
 def get_respone(video, fps):
+    # Returns the server response to the front end
     displacement_time_list = get_coordinates(video, fps)
     response_list = get_displacement_velocity_acceleration(displacement_time_list)
     return response_list
