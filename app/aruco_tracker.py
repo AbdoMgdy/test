@@ -144,7 +144,7 @@ def get_displacement_velocity_acceleration(d):
 
 
 def get_respone(video, fps):
-    d_list = get_coordinates(video, fps)
-    response_list = get_displacement_velocity_acceleration(d_list)
+    displacement_time_list = get_coordinates(video, fps)
+    response_list = get_displacement_velocity_acceleration(displacement_time_list)
 
     return response_list
