@@ -28,7 +28,7 @@ def create_app(env=None):
             n_fps = int(fps)
             uploaded_file = request.files.get('file')
             uploaded_file.save(uploaded_file.name)
-            cords = getRes(uploaded_file.name, n_fps)
+            cords = get_response(uploaded_file.name, n_fps)
             j_cords = json.dumps(cords)
             return cords, 200
 
