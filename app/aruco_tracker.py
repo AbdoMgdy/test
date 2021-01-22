@@ -126,7 +126,7 @@ def get_coordinates(video, fps):
 
 
 def get_displacement_velocity_acceleration(d):
-    varr = []
+    response = []
     for i in range(len(d)):
         try:
             first = d[i]
@@ -137,14 +137,13 @@ def get_displacement_velocity_acceleration(d):
             displacement = second[0]
             velocity = dx/dt
             acceleration = velocity/dt
-            varr.append([displacement, velocity, acceleration, t])
+            response.append([displacement, velocity, acceleration, t])
         except:
             break
-    return varr
+    return response
 
 
 def get_respone(video, fps):
     displacement_time_list = get_coordinates(video, fps)
     response_list = get_displacement_velocity_acceleration(displacement_time_list)
-
     return response_list
