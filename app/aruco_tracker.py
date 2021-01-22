@@ -1,12 +1,7 @@
-
-
 import numpy as np
 import cv2
 import cv2.aruco as aruco
 import glob
-import time
-
-print(np)
 
 
 def calibrate():
@@ -54,7 +49,7 @@ def calibrate():
 c = calibrate()
 
 
-def getCords(video, fps):
+def get_coordinates(video, fps):
 
     frameWidth = 640
     frameHeight = 480
@@ -62,8 +57,7 @@ def getCords(video, fps):
     cap.set(3, frameWidth)
     cap.set(4, frameHeight)
     cap.set(10, 150)
-    res = []
-    start = time.time()
+    response = []
     while (True):
         try:
             ret, frame = cap.read()
@@ -93,7 +87,6 @@ def getCords(video, fps):
                 rvec, tvec, _ = aruco.estimatePoseSingleMarkers(corners, 0.05, c[0], c[1])
 
                 # (rvec-tvec).any() # get rid of that nasty numpy value array error
-                # print(rvec, tvec)
 
                 for i in range(0, ids.size):
                     # draw axis for the aruco markers
@@ -101,13 +94,10 @@ def getCords(video, fps):
                     aruco.drawAxis(frame, c[0], c[1], rvec[i], tvec[i], 0.1)
                     x = corners[0][0][0][0]
                     y = corners[0][0][0][1]
-                    # print("x = ", x)
-                    # print("y = ", y)
                     fn = int(cap.get(cv2.CAP_PROP_POS_FRAMES))
                     dfps = cap.get(cv2.CAP_PROP_FPS)
                     t = (fn/dfps)
-                    # print("t =", t)
-                    res.append([x.item(), t])
+                    response.append([x.item(), t])
                 # draw a square around the markers
                 aruco.drawDetectedMarkers(frame, corners)
 
@@ -135,7 +125,7 @@ def getCords(video, fps):
     return res
 
 
-def getAcc(d):
+def get_displacement_velocity_acceleration(d):
     varr = []
     for i in range(len(d)):
         try:
@@ -144,18 +134,17 @@ def getAcc(d):
             t = second[1]
             dx = second[0] - first[0]
             dt = second[1] - first[1]
-            x = second[0]
-            v = dx/dt
-            a = v/dt
-            # print(f'dx:{dx} dt:{dt} v:{v} a:{a}')
-            varr.append([x, v, a, t])
+            displacement = second[0]
+            velocity = dx/dt
+            acceleration = velocity/dt
+            varr.append([displacement, velocity, acceleration, t])
         except:
             break
     return varr
 
 
-def getRes(v, fps):
-    d_list = getCords(v, fps)
-    acc_list = getAcc(d_list)
+def get_respone(video, fps):
+    d_list = get_coordinates(video, fps)
+    response_list = get_displacement_velocity_acceleration(d_list)
 
-    return acc_list
+    return response_list
