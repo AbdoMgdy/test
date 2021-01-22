@@ -125,12 +125,12 @@ def get_coordinates(video, fps):
     return res
 
 
-def get_displacement_velocity_acceleration(d):
+def get_displacement_velocity_acceleration(displacement_time_list):
     response = []
-    for i in range(len(d)):
+    for i in range(len(displacement_time_list)):
         try:
-            first = d[i]
-            second = d[i+1]
+            first = displacement_time_list[i]
+            second = displacement_time_list[i+1]
             t = second[1]
             dx = second[0] - first[0]
             dt = second[1] - first[1]
