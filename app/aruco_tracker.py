@@ -104,7 +104,8 @@ def getCords(video, fps):
                     # print("x = ", x)
                     # print("y = ", y)
                     fn = int(cap.get(cv2.CAP_PROP_POS_FRAMES))
-                    t = (fn/fps)
+                    dfps = cap.get(cv2.CAP_PROP_FPS)
+                    t = (fn/dfps)
                     # print("t =", t)
                     res.append([x.item(), t])
                 # draw a square around the markers
