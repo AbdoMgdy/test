@@ -135,7 +135,7 @@ def getCords(video, fps):
     return res
 
 
-def getAcc(d):
+def getVelocity(d):
     varr = []
     for i in range(len(d)):
         try:
@@ -146,12 +146,26 @@ def getAcc(d):
             dt = second[1] - first[1]
             x = second[0]
             v = dx/dt
-            a = v/dt
-            # print(f'dx:{dx} dt:{dt} v:{v} a:{a}')
-            varr.append([x, v, a, t])
+            varr.append([x, v, t])
         except:
             break
+
     return varr
+
+
+def getAcc(varr):
+    aarr = []
+    for i in range(len(varr)):
+        try:
+            first = varr[i]
+            second = varr[i+1]
+            dt = second[2] - first[2]
+            dv = second[1] - first[1]
+            a = dv/dt
+            aarr.append([second[0], second[1], a, second[2]])
+        except:
+            break
+    return aarr
 
 
 def getRes(v, fps):
