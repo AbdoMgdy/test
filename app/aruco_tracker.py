@@ -168,8 +168,8 @@ def getAcc(varr):
     return aarr
 
 
-def getRes(v, fps):
-    d_list = getCords(v, fps)
+def getRes(v, mass, cutoff):
+    d_list = getCords(v)
     acc_list = getAcc(d_list)
 
     return acc_list

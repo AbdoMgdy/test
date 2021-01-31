@@ -24,12 +24,11 @@ def create_app(env=None):
             return {'hello': 'world'}
 
         def post(self):
-            fps = request.form.get('fps')
-            n_fps = int(fps)
+            mass = int(request.form.get('mass'))
+            cut_off = int(request.form.get('cutoff'))
             uploaded_file = request.files.get('file')
             uploaded_file.save(uploaded_file.name)
-            cords = getRes(uploaded_file.name, n_fps)
-            j_cords = json.dumps(cords)
+            cords = getRes(uploaded_file.name, mass, cut_off)
             return cords, 200
 
     return app
