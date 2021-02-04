@@ -6,3 +6,5 @@ apriltag
 flask-cors
 gunicorn
 eventlet
+matplotlib
+scipy
