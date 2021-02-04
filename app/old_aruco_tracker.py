@@ -6,6 +6,8 @@ import cv2.aruco as aruco
 import glob
 import time
 
+print(np)
+
 
 def calibrate():
     # ---------------------- CALIBRATION ---------------------------
@@ -22,10 +24,10 @@ def calibrate():
 
     # iterating through all calibration images
     # in the folder
+
     images = glob.glob('app/images/*.jpg')
     first_img = cv2.imread(images[0])
     gray = cv2.cvtColor(first_img, cv2.COLOR_BGR2GRAY)
-
     for fname in images:
         img = cv2.imread(fname)
         gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
@@ -52,7 +54,7 @@ def calibrate():
 c = calibrate()
 
 
-def getCords(video):
+def getCords(video, fps):
 
     frameWidth = 640
     frameHeight = 480
@@ -99,14 +101,13 @@ def getCords(video):
                     aruco.drawAxis(frame, c[0], c[1], rvec[i], tvec[i], 0.1)
                     x = corners[0][0][0][0]
                     y = corners[0][0][0][1]
-
-                    print("x = ", x)
-                    print("y = ", y)
+                    # print("x = ", x)
+                    # print("y = ", y)
                     fn = int(cap.get(cv2.CAP_PROP_POS_FRAMES))
-                    t = (fn/60)
-                    print("t =", t)
-
-                    res.append([x, t])
+                    dfps = cap.get(cv2.CAP_PROP_FPS)
+                    t = (fn/dfps)
+                    # print("t =", t)
+                    res.append([x.item(), t])
                 # draw a square around the markers
                 aruco.drawDetectedMarkers(frame, corners)
 
@@ -134,7 +135,7 @@ def getCords(video):
     return res
 
 
-def getAcc(d):
+def getVelocity(d):
     varr = []
     for i in range(len(d)):
         try:
@@ -144,20 +145,31 @@ def getAcc(d):
             dx = second[0] - first[0]
             dt = second[1] - first[1]
             x = second[0]
-            v = abs(dx/dt)
-            a = v/dt
-            # print(f'dx:{dx} dt:{dt} v:{v} a:{a}')
-            varr.append([x, v, a, t])
+            v = dx/dt
+            varr.append([x, v, t])
         except:
             break
+
     return varr
 
 
-def getRes(v):
+def getAcc(varr):
+    aarr = []
+    for i in range(len(varr)):
+        try:
+            first = varr[i]
+            second = varr[i+1]
+            dt = second[2] - first[2]
+            dv = second[1] - first[1]
+            a = dv/dt
+            aarr.append([second[0], second[1], a, second[2]])
+        except:
+            break
+    return aarr
+
+
+def getRes(v, mass, cutoff):
     d_list = getCords(v)
     acc_list = getAcc(d_list)
 
     return acc_list
-
-
-print(getRes("60frame.mp4"))

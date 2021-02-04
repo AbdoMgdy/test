@@ -12,7 +12,7 @@ def create_app(env=None):
     app = Flask(__name__, template_folder=template_dir)
     CORS(app)
     app.config.from_object(config_by_name[env or "test"])
-    api = Api(app, title="Test API", version="0.1.0")
+    api = Api(app, title="Motion Tracking API", version="0.1.0")
 
     @app.route("/index")
     def index():

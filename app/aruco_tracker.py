@@ -4,9 +4,8 @@ import numpy as np
 import cv2
 import cv2.aruco as aruco
 import glob
-import time
-
-print(np)
+import matplotlib.pyplot as plt
+from scipy.signal import butter, lfilter
 
 
 def calibrate():
@@ -24,10 +23,10 @@ def calibrate():
 
     # iterating through all calibration images
     # in the folder
-
     images = glob.glob('app/images/*.jpg')
     first_img = cv2.imread(images[0])
     gray = cv2.cvtColor(first_img, cv2.COLOR_BGR2GRAY)
+
     for fname in images:
         img = cv2.imread(fname)
         gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
@@ -54,7 +53,7 @@ def calibrate():
 c = calibrate()
 
 
-def getCords(video, fps):
+def getCords(video):
 
     frameWidth = 640
     frameHeight = 480
@@ -63,7 +62,7 @@ def getCords(video, fps):
     cap.set(4, frameHeight)
     cap.set(10, 150)
     res = []
-    start = time.time()
+
     while (True):
         try:
             ret, frame = cap.read()
@@ -101,13 +100,17 @@ def getCords(video, fps):
                     aruco.drawAxis(frame, c[0], c[1], rvec[i], tvec[i], 0.1)
                     x = corners[0][0][0][0]
                     y = corners[0][0][0][1]
-                    # print("x = ", x)
-                    # print("y = ", y)
+
+                    print("x = ", x)
+                    print("y = ", y)
                     fn = int(cap.get(cv2.CAP_PROP_POS_FRAMES))
-                    dfps = cap.get(cv2.CAP_PROP_FPS)
-                    t = (fn/dfps)
-                    # print("t =", t)
-                    res.append([x.item(), t])
+                    fps = cap.get(cv2.CAP_PROP_FPS)
+                    t = (fn/fps)
+                    print(fps)
+
+                    print("t =", t)
+
+                    res.append([x, t])
                 # draw a square around the markers
                 aruco.drawDetectedMarkers(frame, corners)
 
@@ -155,6 +158,10 @@ def getVelocity(d):
 
 def getAcc(varr):
     aarr = []
+    xr = []
+    vr = []
+    ar = []
+    tr = []
     for i in range(len(varr)):
         try:
             first = varr[i]
@@ -162,14 +169,64 @@ def getAcc(varr):
             dt = second[2] - first[2]
             dv = second[1] - first[1]
             a = dv/dt
+            xr.append(second[0])
+            vr.append(second[1])
+            tr.append(second[2])
+            ar.append(a)
             aarr.append([second[0], second[1], a, second[2]])
         except:
             break
-    return aarr
+    return aarr, xr, vr, ar, tr
 
 
-def getRes(v, mass, cutoff):
+def acc_filter(signal):
+    order = 1
+
+    sampling_freq = 60.08898858638626
+
+    cutoff_freq = 6
+
+    normalized_cutoff_freq = 2 * cutoff_freq / sampling_freq
+
+    numerator_coeffs, denominator_coeffs = butter(order, normalized_cutoff_freq)
+
+    filtered_signal = lfilter(numerator_coeffs, denominator_coeffs, signal)
+
+    return filtered_signal
+
+
+def v_filter(signal):
+    order = 1
+
+    sampling_freq = 60.08898858638626
+
+    cutoff_freq = 6
+
+    normalized_cutoff_freq = 2 * cutoff_freq / sampling_freq
+
+    numerator_coeffs, denominator_coeffs = butter(order, normalized_cutoff_freq)
+
+    filtered_signal = lfilter(numerator_coeffs, denominator_coeffs, signal)
+
+    return filtered_signal
+
+
+def getRes(v):
     d_list = getCords(v)
-    acc_list = getAcc(d_list)
+    v_list = getVelocity(d_list)
+    acc_list = getAcc(v_list)
+
+    plt.figure(1)
+    plt.plot(acc_list[4], acc_list[1], 'b-', label='Displacment')
+    plt.legend()
+    plt.figure(2)
+    plt.plot(acc_list[4], acc_list[2], 'r-', linewidth=2, label='Velocity')
+    plt.plot(acc_list[4], v_filter(acc_list[2]), 'b-', linewidth=2, label='Filterd Velocity')
+    plt.legend()
+    plt.figure(3)
+    plt.plot(acc_list[4], acc_list[3], 'y-', linewidth=2, label='Accelertion')
+    plt.plot(acc_list[4], acc_filter(acc_list[3]), 'b-', linewidth=2, label='Filterd Accelertion')
+    plt.legend()
+    plt.show()
 
     return acc_list
