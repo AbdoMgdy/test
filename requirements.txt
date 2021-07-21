@@ -2,7 +2,7 @@ flask
 flask-restx
 opencv-contrib-python
 numpy
-apriltag
+# apriltag
 flask-cors
 gunicorn
 eventlet

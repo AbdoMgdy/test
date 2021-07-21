@@ -24,11 +24,11 @@ def create_app(env=None):
             return {'hello': 'world'}
 
         def post(self):
-            mass = int(request.form.get('mass'))
-            cut_off = int(request.form.get('cutoff'))
+            # mass = int(request.form.get('mass'))
+            # cut_off = int(request.form.get('cutoff'))
             uploaded_file = request.files.get('file')
             uploaded_file.save(uploaded_file.name)
-            cords = getRes(uploaded_file.name, mass, cut_off)
+            cords = getRes(uploaded_file.name)
             return cords, 200
 
     return app

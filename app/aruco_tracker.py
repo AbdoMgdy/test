@@ -100,17 +100,17 @@ def getCords(video):
                     aruco.drawAxis(frame, c[0], c[1], rvec[i], tvec[i], 0.1)
                     x = corners[0][0][0][0]
                     y = corners[0][0][0][1]
-
                     print("x = ", x)
-                    print("y = ", y)
+                    print("type_x = ", type(x))
                     fn = int(cap.get(cv2.CAP_PROP_POS_FRAMES))
                     fps = cap.get(cv2.CAP_PROP_FPS)
                     t = (fn/fps)
                     print(fps)
 
                     print("t =", t)
+                    xi = x.item()
 
-                    res.append([x, t])
+                    res.append([xi, t])
                 # draw a square around the markers
                 aruco.drawDetectedMarkers(frame, corners)
 
@@ -176,15 +176,15 @@ def getAcc(varr):
             aarr.append([second[0], second[1], a, second[2]])
         except:
             break
-    return aarr, xr, vr, ar, tr
+    return aarr
 
 
-def acc_filter(signal):
+def acc_filter(signal, cutoff):
     order = 1
 
     sampling_freq = 60.08898858638626
 
-    cutoff_freq = 6
+    cutoff_freq = cutoff
 
     normalized_cutoff_freq = 2 * cutoff_freq / sampling_freq
 
@@ -195,12 +195,12 @@ def acc_filter(signal):
     return filtered_signal
 
 
-def v_filter(signal):
+def v_filter(signal, cutoff):
     order = 1
 
     sampling_freq = 60.08898858638626
 
-    cutoff_freq = 6
+    cutoff_freq = cutoff
 
     normalized_cutoff_freq = 2 * cutoff_freq / sampling_freq
 
@@ -214,19 +214,20 @@ def v_filter(signal):
 def getRes(v):
     d_list = getCords(v)
     v_list = getVelocity(d_list)
+    filtered_v = v_filter(v_list, 6)
     acc_list = getAcc(v_list)
-
-    plt.figure(1)
-    plt.plot(acc_list[4], acc_list[1], 'b-', label='Displacment')
-    plt.legend()
-    plt.figure(2)
-    plt.plot(acc_list[4], acc_list[2], 'r-', linewidth=2, label='Velocity')
-    plt.plot(acc_list[4], v_filter(acc_list[2]), 'b-', linewidth=2, label='Filterd Velocity')
-    plt.legend()
-    plt.figure(3)
-    plt.plot(acc_list[4], acc_list[3], 'y-', linewidth=2, label='Accelertion')
-    plt.plot(acc_list[4], acc_filter(acc_list[3]), 'b-', linewidth=2, label='Filterd Accelertion')
-    plt.legend()
-    plt.show()
+    filtered_a = acc_filter(v_list, 6)
+    # plt.figure(1)
+    # plt.plot(acc_list[4], acc_list[1], 'b-', label='Displacment')
+    # plt.legend()
+    # plt.figure(2)
+    # plt.plot(acc_list[4], acc_list[2], 'r-', linewidth=2, label='Velocity')
+    # plt.plot(acc_list[4], v_filter(acc_list[2], cutoff), 'b-', linewidth=2, label='Filterd Velocity')
+    # plt.legend()
+    # plt.figure(3)
+    # plt.plot(acc_list[4], acc_list[3], 'y-', linewidth=2, label='Accelertion')
+    # plt.plot(acc_list[4], acc_filter(acc_list[3], cutoff), 'b-', linewidth=2, label='Filterd Accelertion')
+    # plt.legend()
+    # plt.show()
 
     return acc_list

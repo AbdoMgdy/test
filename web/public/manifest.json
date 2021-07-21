@@ -1,0 +1,15 @@
+{
+  "short_name": "Motion Tracking app",
+  "name": "Mobile App PWA",
+  "icons": [
+    {
+      "src": "react.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#000000",
+  "background_color": "#ffffff"
+}
